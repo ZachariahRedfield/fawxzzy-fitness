@@ -1,31 +1,36 @@
-# FawxzzyFitness
+# Playbook v0.1.0
 
-## Playbook Learning Status
+Playbook is a lightweight governance CLI for engineering teams.
 
-This repository uses an automated Playbook Learning system to capture reusable engineering patterns and guardrails.
+## 2-minute quickstart
 
-PRs display a live Playbook Learning Status comment showing:
+```bash
+pnpm install
+pnpm build
+pnpm -C packages/cli playbook --help
+pnpm -C packages/cli playbook init
+pnpm -C packages/cli playbook verify
+```
 
-- Draft notes detected from recent changes
-- Proposed notes waiting promotion
-- Promoted doctrine entries
+## What v0.1.0 enforces
 
-Example metrics:
+- `requireNotesOnChanges`: if `src/**`, `app/**`, `server/**`, or `supabase/**` changed,
+  `docs/PLAYBOOK_NOTES.md` must be part of the same change.
+- CI-friendly verification with non-zero exit on rule failure.
+- Idempotent project initialization using templates.
 
-Drafts | Proposed | Promoted | Upstreamed
+## Example verify failure
 
-Status is automatically computed in CI and visible in pull request checks.
+```text
+❌ verify failed
+Failures:
+- [requireNotesOnChanges] Code changes require a Playbook notes update.
+  evidence: src/foo.ts (triggered by 1 changed file(s))
+  fix: Update docs/PLAYBOOK_NOTES.md with a note describing WHAT changed and WHY.
+```
 
-Typical workflow:
+## Templates and CI integration
 
-While coding:
-`npm run playbook:guardian`
-
-PR feedback:
-CI automatically reports Playbook Learning status.
-
-Batch promotion:
-`npm run playbook:sync-and-update`
-
-Quick maintenance:
-`npm run playbook:maintain`
+- `templates/repo` contains bootstrap docs and a GitHub Action template for consumers.
+- Run `playbook init` in a repository to copy those files without overwriting existing ones.
+- Consumer workflow template runs `npx playbook verify --ci`.

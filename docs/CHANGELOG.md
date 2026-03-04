@@ -1,3 +1,7 @@
+## 2026-03-04 - Scaffold Playbook monorepo v0.1.0
+- WHAT: Added pnpm monorepo with playbook CLI + engine, templates, docs, and CI smoke checks.
+- WHY: Establish a standalone, publishable Playbook baseline with deterministic verify rules.
+
 # Changelog
 
 All notable changes to this project are documented in this file.

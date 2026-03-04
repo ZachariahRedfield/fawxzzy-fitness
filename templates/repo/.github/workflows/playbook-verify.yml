@@ -1,11 +1,11 @@
-name: ci
+name: playbook-verify
 on:
   pull_request:
   push:
     branches: [main]
 
 jobs:
-  test:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,8 +16,5 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install
-      - run: pnpm build
-      - run: pnpm test
-      - run: node packages/cli/dist/main.js --help
-      - run: node scripts/smoke-cli.mjs
+      - run: pnpm install --frozen-lockfile
+      - run: npx playbook verify --ci
