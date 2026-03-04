@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-03-03 — Router cleanup and verification clarity updates
+
+### WHAT
+- Removed the redundant Finance placeholder router entry.
+- Added a verification tier reference document.
+- Clarified the Core vs Overlay boundary in the AI task prompt template.
+
+### WHY
+- Reduce routing ambiguity.
+- Prevent overlay drift.
+- Strengthen multi-project governance clarity.
+
+## 2026-03-03 — Added FawxzzyFinance project overlay routing scaffold
+
+### WHAT
+- Added a new `FawxzzyFinance` project overlay document.
+- Added a `FawxzzyFinance` router entry in `docs/PROJECTS/index.md`.
+
+### WHY
+- Pre-wire multi-project governance routing for FawxzzyFinance.
+- Isolate project-specific posture in an overlay without polluting Core doctrine.
+
 ## 2026-03-03 — Added onboarding entrypoint, examples, and consumer doc templates
 
 ### WHAT

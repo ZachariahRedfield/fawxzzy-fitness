@@ -26,6 +26,7 @@
 
 ## Reference records
 - [Decision Log](./REFERENCE/decision-log.md)
+- [Verification Tiers](./REFERENCE/verification-tiers.md)
 - [Source Dumps](./PROJECT_DUMPS/)
 
 ## Templates and prompts
