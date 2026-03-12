@@ -29,3 +29,14 @@ Batch promotion:
 
 Quick maintenance:
 `npm run playbook:maintain`
+
+## Deterministic Execution Runs
+
+Playbook now tracks full remediation/agent workflows as deterministic run artifacts in `.playbook/runs/<run-id>.json`.
+
+This run-state model provides:
+
+- ordered step history across verify → plan → apply → verify;
+- evidence linkage to findings, plan, and apply artifacts;
+- inspectable partial and failed runs for resume/audit/learning;
+- stable checkpoints and deterministic JSON serialization.

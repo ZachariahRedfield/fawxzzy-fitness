@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "repo": {
-    "name": "FawxzzyFitness",
+    "name": "fawxzzy-fitness",
     "branch": "work",
-    "head_sha": "4361e340c95275b1e9b849e532099186cfd7f616"
+    "head_sha": "57a7d24711d27ef12030df9e5f14df138b4440d3"
   },
   "timestamps": {
-    "last_run_iso": "2026-03-04T22:28:21.468Z"
+    "last_run_iso": "2026-03-12T12:25:44.905Z"
   },
   "notes": {
     "draft": 0,
