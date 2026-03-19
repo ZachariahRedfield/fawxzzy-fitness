@@ -31,6 +31,14 @@ This file is a project-local inbox for repo-specific Playbook notes that may lat
 - Status: Proposed | Promoted | Upstreamed | Rejected
 
 ## PROPOSED
+## 2026-03-19 — Save/discard flows must reuse the same return contract as Back
+- Type: Guardrail
+- Summary: If a screen already defines a safe in-app Back destination, save and destructive footer actions on that same screen should resolve through the identical return contract instead of hardcoding a different destination.
+- Suggested Playbook File: docs/GUARDRAILS/navigation-return-contracts.md
+- Rationale: Prevents high-frequency actions like Save Day, Save Session, and Discard Workout from unexpectedly teleporting users to unrelated screens even though Back correctly preserves context.
+- Evidence: src/lib/navigation-return.ts, src/components/ui/useReturnNavigation.ts, src/components/SessionPageClient.tsx, src/app/routines/[id]/edit/day/[dayId]/page.tsx
+- Status: Proposed
+
 ## 2026-03-19 — Steady-state flows should log summaries, not entities
 - Type: Guardrail
 - Summary: Expected normalization, sentinel filtering, and fallback behavior in steady-state app flows should stay silent by default or emit only one summary-level debug line per loader run behind an explicit debug flag.

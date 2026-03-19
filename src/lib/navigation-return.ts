@@ -6,11 +6,13 @@ export function resolveReturnHref(rawReturnTo: string | null | undefined, fallba
   return isSafeAppPath(rawReturnTo) ? rawReturnTo : fallbackHref;
 }
 
-export function getSafeReturnContract(currentPath: string, stack: string[], fallbackHref?: string) {
+export function getSafeReturnContract(currentPath: string, stack: string[], fallbackHref?: string, preferredReturnHref?: string) {
   const isCurrentStackTail = stack[stack.length - 1] === currentPath;
   const previousEntry = isCurrentStackTail ? stack[stack.length - 2] : null;
   const historyHref = isSafeAppPath(previousEntry) ? previousEntry : null;
-  const fallbackReturnHref = isSafeAppPath(fallbackHref) ? fallbackHref : null;
+  const fallbackReturnHref = isSafeAppPath(preferredReturnHref)
+    ? preferredReturnHref
+    : (isSafeAppPath(fallbackHref) ? fallbackHref : null);
 
   return {
     historyHref,

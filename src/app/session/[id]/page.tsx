@@ -96,8 +96,13 @@ type PageProps = {
   searchParams?: {
     error?: string;
     exerciseId?: string;
+    returnTo?: string;
   };
 };
+
+function resolveSessionReturnTo(rawReturnTo: string | undefined) {
+  return rawReturnTo && rawReturnTo.startsWith("/") ? rawReturnTo : undefined;
+}
 
 export default async function SessionPage({ params, searchParams }: PageProps) {
   const {
@@ -111,6 +116,7 @@ export default async function SessionPage({ params, searchParams }: PageProps) {
   } = await getSessionPageData(params.id);
 
   const unitLabel = routine?.weight_unit ?? "kg";
+  const returnToHref = resolveSessionReturnTo(searchParams?.returnTo);
 
   const exerciseById = new Map(exerciseOptions.map((exercise) => [exercise.id, exercise]));
 
@@ -182,6 +188,7 @@ export default async function SessionPage({ params, searchParams }: PageProps) {
           toggleSkipAction={toggleSkipAction}
           removeExerciseAction={removeExerciseAction}
           deleteSetAction={deleteSetAction}
+          returnToHref={returnToHref}
         />
       </ScrollScreenWithBottomActions>
     </AppShell>

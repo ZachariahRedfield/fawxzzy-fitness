@@ -159,7 +159,7 @@ export function LogAuditClient({
 }) {
   const router = useRouter();
   const toast = useToast();
-  const { navigateReturn } = useReturnNavigation(backHref);
+  const { navigateReturn } = useReturnNavigation({ fallbackHref: backHref });
   const [isPending, startTransition] = useTransition();
   const [isEditing, setIsEditing] = useState(initialIsEditing);
   const [dayName, setDayName] = useState(initialDayName);

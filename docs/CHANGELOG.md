@@ -1,3 +1,14 @@
+## 0.3.83 — 2026-03-19
+
+### WHAT
+- Extended the shared safe-return contract so explicit in-app `returnTo` targets are treated as the fallback return path for save/discard flows when there is no safe history entry to pop.
+- Updated Current Session to propagate Today-origin `returnTo` values into Resume/Start links, align the header Back action with that same destination, and make Save Session / Discard reuse the same return contract instead of defaulting to History.
+- Updated Edit Day save handling so the hidden return target prefers the originating Day View or other safe in-app source, matching the Back action instead of dropping back to Edit Routine on direct loads.
+
+### WHY
+- Prevents destructive and save actions from teleporting users to unrelated screens when the route was opened from Today or another in-app day context.
+- Keeps Back, Save, and Discard semantics synchronized across high-frequency workout flows so the normalized bottom-action system reflects one navigation contract instead of screen-specific exceptions.
+
 ## 0.3.82 — 2026-03-19
 
 ### WHAT

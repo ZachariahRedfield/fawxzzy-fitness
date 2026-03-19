@@ -2,11 +2,11 @@
 
 import { TopRightBackButton } from "@/components/ui/TopRightBackButton";
 
-export function SessionBackButton() {
+export function SessionBackButton({ href = "/today" }: { href?: string }) {
   return (
     <TopRightBackButton
-      href="/today"
-      ariaLabel="Back to Today"
+      href={href}
+      ariaLabel="Back"
       onClick={() => {
         window.dispatchEvent(
           new CustomEvent("session-exercise-focus:close-request"),

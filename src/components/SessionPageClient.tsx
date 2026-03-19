@@ -78,6 +78,7 @@ export function SessionPageClient({
   toggleSkipAction,
   removeExerciseAction,
   deleteSetAction,
+  returnToHref,
 }: {
   sessionId: string;
   initialDurationSeconds: number | null;
@@ -94,12 +95,13 @@ export function SessionPageClient({
   toggleSkipAction: (formData: FormData) => Promise<ActionResult>;
   removeExerciseAction: (formData: FormData) => Promise<ActionResult>;
   deleteSetAction: (payload: { sessionId: string; sessionExerciseId: string; setId: string }) => Promise<ActionResult>;
+  returnToHref?: string;
 }) {
   const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
   const baseDurationSeconds = initialDurationSeconds ?? 0;
   const [durationSeconds, setDurationSeconds] = useState(() => getElapsedDuration(baseDurationSeconds, performedAt));
   const toast = useToast();
-  const { navigateReturn } = useReturnNavigation("/history");
+  const { navigateReturn } = useReturnNavigation({ fallbackHref: "/today", preferredReturnHref: returnToHref });
 
   useEffect(() => {
     setDurationSeconds(getElapsedDuration(baseDurationSeconds, performedAt));
@@ -125,6 +127,7 @@ export function SessionPageClient({
           sessionTitle={sessionTitle}
           durationSeconds={durationSeconds}
           quickAddAction={quickAddAction}
+          backHref={returnToHref ?? "/today"}
         />
       ) : null}
 

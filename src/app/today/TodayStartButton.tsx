@@ -36,7 +36,7 @@ export function TodayStartButton({
             return;
           }
 
-          router.push(`/session/${result.data.sessionId}`);
+          router.push(`/session/${result.data.sessionId}?returnTo=${encodeURIComponent("/today")}`);
         });
       }}
     >
