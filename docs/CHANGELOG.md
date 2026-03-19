@@ -1,6 +1,9 @@
 ## 0.3.82 — 2026-03-19
 
 ### WHAT
+- Fixed current-session save/discard and header Back fallbacks to prefer the same explicit in-app return target, so Today and Day View no longer get replaced by History when a session was opened from those contexts.
+- Fixed Edit Day save return propagation so the Save Day footer now respects the same validated `returnTo` target used by Back/Cancel, including Day View entry and reload-safe returns.
+- Propagated explicit `returnTo` targets from Today start/resume and Today → Edit Day entry points so shared save/discard/back helpers can preserve context even when browser history is unavailable.
 - Removed steady-state per-exercise logging from runnable-day normalization, sentinel suppression, and exercise-stats list fetches so normal navigation no longer floods the terminal.
 - Added a shared explicit observability gate for these paths and converted the remaining diagnostics to debug-only summary logs that report loader-level counts instead of one line per entity.
 - Preserved real warnings/errors for bad states while keeping expected fallback and sentinel filtering silent unless the explicit debug flag is enabled.

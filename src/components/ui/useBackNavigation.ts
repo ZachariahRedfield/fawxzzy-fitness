@@ -41,19 +41,21 @@ export function getPreviousInAppPath(currentPath: string): string | null {
   return getSafeReturnContract(currentPath, readStack()).historyHref;
 }
 
-export function getSafeReturnHref(currentPath: string, fallbackHref?: string): string | null {
-  return getSafeReturnContract(currentPath, readStack(), fallbackHref).returnHref;
+export function getSafeReturnHref(currentPath: string, fallbackHref?: string, preferredReturnHref?: string | null): string | null {
+  return getSafeReturnContract(currentPath, readStack(), fallbackHref, preferredReturnHref).returnHref;
 }
 
-export function shouldUseHistoryBack(currentPath: string, fallbackHref?: string): boolean {
-  return getSafeReturnContract(currentPath, readStack(), fallbackHref).useHistoryBack;
+export function shouldUseHistoryBack(currentPath: string, fallbackHref?: string, preferredReturnHref?: string | null): boolean {
+  return getSafeReturnContract(currentPath, readStack(), fallbackHref, preferredReturnHref).useHistoryBack;
 }
 
 export function useBackNavigation({
   fallbackHref,
+  preferredReturnHref,
   historyBehavior = "history-first",
 }: {
   fallbackHref?: string;
+  preferredReturnHref?: string | null;
   historyBehavior?: "history-first" | "fallback-only";
 }) {
   const router = useRouter();
@@ -95,23 +97,23 @@ export function useBackNavigation({
       return false;
     }
 
-    return shouldUseHistoryBack(currentPath, fallbackHref);
-  }, [currentPath, fallbackHref, historyBehavior]);
+    return shouldUseHistoryBack(currentPath, fallbackHref, preferredReturnHref);
+  }, [currentPath, fallbackHref, historyBehavior, preferredReturnHref]);
 
   const navigateBack = useCallback(() => {
-    if (historyBehavior === "history-first" && shouldUseHistoryBack(currentPath, fallbackHref)) {
+    if (historyBehavior === "history-first" && shouldUseHistoryBack(currentPath, fallbackHref, preferredReturnHref)) {
       router.back();
       return true;
     }
 
-    const fallbackReturnHref = getSafeReturnContract(currentPath, readStack(), fallbackHref).fallbackReturnHref;
+    const fallbackReturnHref = getSafeReturnContract(currentPath, readStack(), fallbackHref, preferredReturnHref).fallbackReturnHref;
     if (fallbackReturnHref) {
       router.push(fallbackReturnHref);
       return false;
     }
 
     return false;
-  }, [currentPath, fallbackHref, historyBehavior, router]);
+  }, [currentPath, fallbackHref, historyBehavior, preferredReturnHref, router]);
 
   return {
     canGoBack,

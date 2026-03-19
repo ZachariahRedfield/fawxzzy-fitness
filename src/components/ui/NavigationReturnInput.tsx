@@ -2,8 +2,14 @@
 
 import { useReturnNavigation } from "@/components/ui/useReturnNavigation";
 
-export function NavigationReturnInput({ name = "returnTo", fallbackHref }: { name?: string; fallbackHref?: string }) {
-  const { returnHref } = useReturnNavigation(fallbackHref);
+type NavigationReturnInputProps = {
+  name?: string;
+  fallbackHref?: string;
+  preferredReturnHref?: string | null;
+};
+
+export function NavigationReturnInput({ name = "returnTo", fallbackHref, preferredReturnHref }: NavigationReturnInputProps) {
+  const { returnHref } = useReturnNavigation(fallbackHref, preferredReturnHref);
 
   return <input type="hidden" name={name} value={returnHref ?? ""} />;
 }

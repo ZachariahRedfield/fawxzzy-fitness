@@ -7,6 +7,7 @@ import { useBackNavigation } from "@/components/ui/useBackNavigation";
 type BackButtonProps = {
   href?: string;
   fallbackHref?: string;
+  preferredReturnHref?: string | null;
   label?: string;
   ariaLabel?: string;
   className?: string;
@@ -34,6 +35,7 @@ function BackIcon() {
 export function BackButton({
   href,
   fallbackHref,
+  preferredReturnHref,
   label = "Back",
   ariaLabel,
   className = "",
@@ -43,6 +45,7 @@ export function BackButton({
 }: BackButtonProps) {
   const { navigateBack } = useBackNavigation({
     fallbackHref: fallbackHref ?? href,
+    preferredReturnHref,
     historyBehavior,
   });
   const classes = iconOnly

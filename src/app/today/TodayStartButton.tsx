@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { ActionResult } from "@/lib/action-result";
 import { useToast } from "@/components/ui/ToastProvider";
 import { PrimaryButton } from "@/components/ui/AppButton";
@@ -20,6 +20,8 @@ export function TodayStartButton({
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const toast = useToast();
 
   return (
@@ -36,7 +38,10 @@ export function TodayStartButton({
             return;
           }
 
-          router.push(`/session/${result.data.sessionId}`);
+          const nextParams = new URLSearchParams(searchParams?.toString() ?? "");
+          const currentPath = nextParams.toString() ? `${pathname}?${nextParams.toString()}` : pathname;
+          const targetParams = new URLSearchParams({ returnTo: currentPath });
+          router.push(`/session/${result.data.sessionId}?${targetParams.toString()}`);
         });
       }}
     >

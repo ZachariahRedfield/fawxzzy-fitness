@@ -70,6 +70,7 @@ export function SessionPageClient({
   searchError,
   unitLabel,
   exercises,
+  returnHref,
   saveSessionAction,
   discardSessionAction,
   quickAddAction,
@@ -86,6 +87,7 @@ export function SessionPageClient({
   searchError?: string;
   unitLabel: string;
   exercises: SessionExerciseFocusItem[];
+  returnHref?: string | null;
   saveSessionAction: ServerAction;
   discardSessionAction: VoidServerAction;
   quickAddAction: React.ReactNode;
@@ -99,7 +101,7 @@ export function SessionPageClient({
   const baseDurationSeconds = initialDurationSeconds ?? 0;
   const [durationSeconds, setDurationSeconds] = useState(() => getElapsedDuration(baseDurationSeconds, performedAt));
   const toast = useToast();
-  const { navigateReturn } = useReturnNavigation("/history");
+  const { navigateReturn } = useReturnNavigation("/today", returnHref);
 
   useEffect(() => {
     setDurationSeconds(getElapsedDuration(baseDurationSeconds, performedAt));
@@ -125,6 +127,7 @@ export function SessionPageClient({
           sessionTitle={sessionTitle}
           durationSeconds={durationSeconds}
           quickAddAction={quickAddAction}
+          returnHref={returnHref}
         />
       ) : null}
 
@@ -153,44 +156,44 @@ export function SessionPageClient({
           primary={(
             <form
               action={async (formData) => {
-              const result = await saveSessionAction(formData);
-              toastActionResult(toast, result, {
-                success: "Workout saved.",
-                error: "Could not save workout.",
-              });
+                const result = await saveSessionAction(formData);
+                toastActionResult(toast, result, {
+                  success: "Workout saved.",
+                  error: "Could not save workout.",
+                });
 
-              if (result.ok) {
-                navigateReturn();
-              }
+                if (result.ok) {
+                  navigateReturn();
+                }
               }}
               className="w-full"
             >
-            <input type="hidden" name="sessionId" value={sessionId} />
-            <input type="hidden" name="durationSeconds" value={String(durationSeconds)} />
-            <AppButton type="submit" variant="primary" size="md" fullWidth className="min-h-12 font-semibold">
-              Save Session
-            </AppButton>
+              <input type="hidden" name="sessionId" value={sessionId} />
+              <input type="hidden" name="durationSeconds" value={String(durationSeconds)} />
+              <AppButton type="submit" variant="primary" size="md" fullWidth className="min-h-12 font-semibold">
+                Save Session
+              </AppButton>
             </form>
           )}
           secondary={(
             <ConfirmedServerFormButton
               action={async (formData) => {
-              const result = await discardSessionAction(formData);
-              toastActionResult(toast, result, {
-                success: "Workout discarded.",
-                error: "Could not discard workout.",
-              });
+                const result = await discardSessionAction(formData);
+                toastActionResult(toast, result, {
+                  success: "Workout discarded.",
+                  error: "Could not discard workout.",
+                });
 
-              if (result.ok) {
-                navigateReturn();
-              }
+                if (result.ok) {
+                  navigateReturn();
+                }
               }}
               hiddenFields={{ sessionId }}
               triggerLabel="Discard"
-            triggerClassName="w-full"
-            size="md"
-            modalTitle="Discard workout?"
-            modalDescription="This will delete your in-progress workout, including exercises and sets."
+              triggerClassName="w-full"
+              size="md"
+              modalTitle="Discard workout?"
+              modalDescription="This will delete your in-progress workout, including exercises and sets."
               confirmLabel="Discard"
             />
           )}

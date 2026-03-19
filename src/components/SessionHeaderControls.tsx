@@ -15,10 +15,12 @@ export function SessionHeaderControls({
   sessionTitle,
   durationSeconds,
   quickAddAction,
+  returnHref,
 }: {
   sessionTitle: string;
   durationSeconds: number;
   quickAddAction: ReactNode;
+  returnHref?: string | null;
 }) {
   return (
     <div className="sticky top-0 z-40 border-b border-white/8 bg-[rgb(var(--surface-rgb)/0.92)] backdrop-blur-md">
@@ -29,7 +31,7 @@ export function SessionHeaderControls({
             <p className="text-sm font-medium tabular-nums text-muted">{formatDurationClock(durationSeconds)}</p>
           </div>
           <div className="shrink-0">
-            <SessionBackButton />
+            <SessionBackButton returnHref={returnHref} />
           </div>
         </div>
 

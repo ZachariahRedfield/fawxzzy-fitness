@@ -5,6 +5,7 @@ import { ScrollScreenWithBottomActions } from "@/components/layout/ScrollScreenW
 import { QuickAddExerciseSheet } from "./QuickAddExerciseSheet";
 import { formatExerciseGoal } from "@/lib/exercise-goal-format";
 import { normalizeExerciseDisplayName } from "@/lib/exercise-display";
+import { resolveReturnHref } from "@/lib/navigation-return";
 import type { DisplayTarget } from "@/lib/session-targets";
 import {
   addSetAction,
@@ -96,6 +97,7 @@ type PageProps = {
   searchParams?: {
     error?: string;
     exerciseId?: string;
+    returnTo?: string;
   };
 };
 
@@ -111,6 +113,7 @@ export default async function SessionPage({ params, searchParams }: PageProps) {
   } = await getSessionPageData(params.id);
 
   const unitLabel = routine?.weight_unit ?? "kg";
+  const resolvedReturnHref = resolveReturnHref(searchParams?.returnTo, "/today");
 
   const exerciseById = new Map(exerciseOptions.map((exercise) => [exercise.id, exercise]));
 
@@ -126,6 +129,7 @@ export default async function SessionPage({ params, searchParams }: PageProps) {
           sessionTitle={sessionTitle}
           searchError={searchParams?.error}
           unitLabel={unitLabel}
+          returnHref={resolvedReturnHref}
           exercises={sessionExercises.map((exercise) => {
             const displayTarget = sessionTargets.get(exercise.id);
             return {

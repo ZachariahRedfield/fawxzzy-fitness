@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getSafeReturnContract } from "@/lib/navigation-return";
 import { readStack } from "@/components/ui/useBackNavigation";
 
-export function useReturnNavigation(fallbackHref?: string) {
+export function useReturnNavigation(fallbackHref?: string, preferredReturnHref?: string | null) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -16,8 +16,8 @@ export function useReturnNavigation(fallbackHref?: string) {
   }, [pathname, searchParams]);
 
   const returnContract = useMemo(
-    () => getSafeReturnContract(currentPath, readStack(), fallbackHref),
-    [currentPath, fallbackHref],
+    () => getSafeReturnContract(currentPath, readStack(), fallbackHref, preferredReturnHref),
+    [currentPath, fallbackHref, preferredReturnHref],
   );
 
   const navigateReturn = useCallback(() => {

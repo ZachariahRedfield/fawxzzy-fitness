@@ -300,3 +300,11 @@ This file is a project-local inbox for repo-specific Playbook notes that may lat
 - Status: Proposed
 - Focused logging screens should only keep task-critical copy and follow the rhythm `identity -> goal -> entry -> effort -> review -> commit`; avoid status boxes and explanatory filler that repeat what the UI already implies.
 - When a logging surface needs multiple commit-adjacent actions, publish them through the shared bottom action system instead of local inline controls so destructive and secondary actions stay normalized with the primary save action.
+
+
+## 2026-03-19 — Explicit return targets should reinforce, not bypass, the shared back-return contract
+- Type: Pattern
+- Summary: When a flow can be reopened, reloaded, or entered from multiple valid in-app screens, route-level `returnTo` should be propagated as a preferred safe fallback so Save, Discard, and Back all land on the same screen even without usable browser history.
+- Rationale: Session and editor flows can lose stack state after refresh or direct entry; preserving an explicit safe app target prevents destructive/save actions from teleporting users to unrelated screens.
+- Evidence: src/lib/navigation-return.ts, src/components/ui/useBackNavigation.ts, src/components/ui/useReturnNavigation.ts, src/app/session/[id]/page.tsx, src/components/SessionPageClient.tsx, src/app/today/TodayStartButton.tsx, src/app/routines/[id]/edit/day/[dayId]/page.tsx
+- Status: Proposed
