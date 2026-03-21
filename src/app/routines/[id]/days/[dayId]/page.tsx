@@ -1,15 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppNav } from "@/components/AppNav";
 import { AppHeader } from "@/components/ui/app/AppHeader";
 import { MainTabScreen } from "@/components/ui/app/MainTabScreen";
-import { AppPanel } from "@/components/ui/app/AppPanel";
 import { FIXED_CTA_RESERVE_CLASS } from "@/components/ui/BottomActionBar";
 import { ScrollScreenWithBottomActions } from "@/components/layout/ScrollScreenWithBottomActions";
 import { PublishBottomActions } from "@/components/layout/PublishBottomActions";
-import { BottomActionSingle } from "@/components/layout/CanonicalBottomActions";
+import { BottomActionSplit } from "@/components/layout/CanonicalBottomActions";
 import { getAppButtonClassName } from "@/components/ui/appButtonClasses";
-import { TopRightBackButton } from "@/components/ui/TopRightBackButton";
 import { RoutineDayExerciseList } from "@/app/routines/[id]/days/[dayId]/RoutineDayExerciseList";
 import { requireUser } from "@/lib/auth";
 import { buildCanonicalDaySummaries } from "@/lib/routine-day-loader";
@@ -94,25 +91,21 @@ export default async function RoutineDayDetailPage({ params, searchParams }: Pag
   });
   const canonicalDay = summaries[0] ?? null;
   const dayLabel = dayRow.name?.trim() || (dayRow.is_rest ? "Rest" : "Training");
+  const panelTitle = `${routineRow.name} | ${dayLabel}`;
   const daySummary = dayRow.is_rest
     ? "Rest day"
     : getExerciseCountSummaryFromCanonicalExercises(canonicalDay?.runnableExercises ?? []).label;
   const returnToPath = getCurrentPathWithSearch(params, searchParams);
   const editDayHref = `/routines/${routineRow.id}/edit/day/${dayRow.id}?returnTo=${encodeURIComponent(returnToPath)}`;
+  const routinesHref = "/routines";
 
   return (
-    <MainTabScreen>
-      <AppNav />
-
+    <MainTabScreen topNavMode="none">
       <ScrollScreenWithBottomActions className={FIXED_CTA_RESERVE_CLASS}>
+        <div className="space-y-4 px-1 pt-1">
           <section className="space-y-4">
-            <AppPanel className="space-y-3">
-              <AppHeader
-                title={dayLabel}
-                subtitleRight={daySummary}
-                action={<TopRightBackButton href="/routines" />}
-                actionClassName="-mt-1"
-              />
+            <div className="space-y-3 rounded-[1.75rem] border border-white/14 bg-[rgb(var(--surface-rgb)/0.58)] px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-[8px]">
+              <AppHeader title={panelTitle} subtitleRight={daySummary} />
 
               {canonicalDay?.state === "partial" ? (
                 <p className="rounded-md border border-amber-400/20 bg-amber-500/10 px-3 py-2 text-sm text-amber-100">
@@ -138,18 +131,29 @@ export default async function RoutineDayDetailPage({ params, searchParams }: Pag
                   }))}
                 />
               )}
-            </AppPanel>
+            </div>
           </section>
-          <PublishBottomActions>
-            <BottomActionSingle>
+        </div>
+        <PublishBottomActions>
+          <BottomActionSplit
+            primary={(
               <Link
                 href={editDayHref}
                 className={getAppButtonClassName({ variant: "primary", fullWidth: true, className: "w-full" })}
               >
                 Edit Day
               </Link>
-            </BottomActionSingle>
-          </PublishBottomActions>
+            )}
+            secondary={(
+              <Link
+                href={routinesHref}
+                className={getAppButtonClassName({ variant: "secondary", fullWidth: true, className: "w-full" })}
+              >
+                Routines
+              </Link>
+            )}
+          />
+        </PublishBottomActions>
       </ScrollScreenWithBottomActions>
     </MainTabScreen>
   );
