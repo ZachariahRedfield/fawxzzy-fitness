@@ -20,6 +20,13 @@ Primary local sources of truth:
 4. Run quality gates after implementation:
    - `npm run lint`
    - `npm run build`
+   - `npm run verify:release-governance` when release-relevant operator/runtime surfaces change
+
+Release-governance verify contract:
+- Release-relevant non-doc changes must fail closed unless `package.json` carries the corresponding version bump.
+- Version-group updates must stay consistent between `package.json` and the latest release heading in `docs/CHANGELOG.md`.
+- Public operator-contract expansion (for example new package scripts or new `scripts/playbook-runtime.mjs` command aliases) must be paired with a `docs/CHANGELOG.md` release-plan update.
+- CI must consume the canonical JSON/markdown output emitted by `scripts/verify-release-governance.mjs` rather than re-implementing workflow-local detection logic.
 
 ## Enforcement Guardrails
 

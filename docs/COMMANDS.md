@@ -34,8 +34,10 @@ npm run
 | `npm run validate:exercise-info-endpoint` | Validate exercise-info API behavior. |
 | `npm run sanity:quick` | Fast local check (`lint`). |
 | `npm run sanity` | Full local check (`lint` + `build`). |
-| `npm run verify` | Alias for full local check (`lint` + `build`). |
+| `npm run verify` | Run the canonical upstream Playbook `verify` command through the local runtime bridge. |
 | `npm run verify:strict` | Alias for full local check (`lint` + `build`). |
+| `npm run verify:release-governance` | Deterministically fail closed when release-relevant changes land without the required version/changelog governance updates. |
+| `npm run test:release-governance` | Run fixture-based regression coverage for the release-governance verify rules. |
 
 ## Release
 

@@ -1,3 +1,16 @@
+## Unreleased
+
+## [v0.3.77] – Release Governance Verify
+
+### WHAT
+- Added a canonical `scripts/verify-release-governance.mjs` check plus fixture-based regression tests so release-relevant diffs now fail closed when `package.json` is not bumped, docs-only changes stay green, changelog/package version groups drift, or operator-contract expansion lands without a changelog-backed release plan.
+- Updated CI to run that canonical release-governance verifier, publish one compact job summary from the generated markdown artifact, and upload the matching JSON/stdout artifacts instead of embedding workflow-local release checks.
+- Documented the new release-governance verify command and the repo rule that release-relevant operator/runtime changes must carry both SemVer intent and changelog evidence.
+
+### WHY
+- Keeps release/version enforcement deterministic and evidence-backed in one repo-local implementation instead of scattering shell-only checks across CI.
+- Gives contributors compact next actions in text mode while still leaving a machine-readable artifact trail for CI and review.
+
 ## [v0.3.76] – Session Footer Timer and Log Summary Cleanup
 
 ### WHAT
@@ -4255,7 +4268,17 @@ WHY:
 - Reduces the risk of subtle layout shift or inconsistent border-radius/cropping behavior from ad hoc image usage.
 ## Unreleased
 
-### Changed
+## [v0.3.77] – Release Governance Verify
+
+### WHAT
+- Added a canonical `scripts/verify-release-governance.mjs` check plus fixture-based regression tests so release-relevant diffs now fail closed when `package.json` is not bumped, docs-only changes stay green, changelog/package version groups drift, or operator-contract expansion lands without a changelog-backed release plan.
+- Updated CI to run that canonical release-governance verifier, publish one compact job summary from the generated markdown artifact, and upload the matching JSON/stdout artifacts instead of embedding workflow-local release checks.
+- Documented the new release-governance verify command and the repo rule that release-relevant operator/runtime changes must carry both SemVer intent and changelog evidence.
+
+### WHY
+- Keeps release/version enforcement deterministic and evidence-backed in one repo-local implementation instead of scattering shell-only checks across CI.
+- Gives contributors compact next actions in text mode while still leaving a machine-readable artifact trail for CI and review.
+
 - Normalized day/exercise breakdown summaries onto one shared metadata contract so Today now renders the same strength/cardio breakdown quality as Routines, View Day, and Edit Day instead of falling back to generic exercise counts.
 - Extended canonical exercise details plus Today/day-summary payloads to carry full cardio-classification metadata (`kind`, `type`, `tags`, `categories`) all the way into the shared summary formatter, including offline Today snapshots.
 - Aligned the View Day route with the same canonical summary path used on Today and Routines by loading the fallback exercise measurement fields that canonical summaries expect and by removing the route-local rest-day summary bypass.

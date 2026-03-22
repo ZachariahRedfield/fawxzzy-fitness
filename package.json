@@ -1,6 +1,6 @@
 {
   "name": "fawxzzyfitness",
-  "version": "0.3.76",
+  "version": "0.3.77",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -40,7 +40,9 @@
     "verify": "node scripts/playbook-runtime.mjs verify",
     "verify:strict": "npm run lint && npm run build",
     "test:playbook-runtime": "node --test scripts/playbook-runtime.test.mjs",
-    "test:session-set-count": "node --test src/components/session/setCountSync.test.ts"
+    "test:session-set-count": "node --test src/components/session/setCountSync.test.ts",
+    "verify:release-governance": "node scripts/verify-release-governance.mjs",
+    "test:release-governance": "node --test scripts/verify-release-governance.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",

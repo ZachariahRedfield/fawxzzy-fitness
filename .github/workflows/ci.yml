@@ -71,6 +71,29 @@ jobs:
           node scripts/playbook-runtime.mjs plan
           node scripts/playbook-runtime.mjs pilot
 
+      - name: Run canonical release-governance verify
+        run: |
+          node scripts/verify-release-governance.mjs \
+            --json \
+            --base-ref "${{ github.event.pull_request.base.sha || 'origin/main' }}" \
+            --artifact-file .playbook/reports/release-governance.json \
+            --summary-file .playbook/reports/release-governance-summary.md \
+            > .playbook/reports/release-governance.stdout.json
+
+      - name: Append compact release-governance summary to job summary
+        if: always()
+        run: cat .playbook/reports/release-governance-summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload release-governance verify artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-governance-verify
+          path: |
+            .playbook/reports/release-governance.json
+            .playbook/reports/release-governance.stdout.json
+            .playbook/reports/release-governance-summary.md
+
       - name: Assert required runtime artifacts are written under .playbook/
         run: |
           required_artifacts=(
