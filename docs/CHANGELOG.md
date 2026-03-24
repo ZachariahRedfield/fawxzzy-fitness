@@ -1,3 +1,17 @@
+## [v0.3.89] – Edit Day Row Action Isolation and Exercise Flow Copy Cleanup
+
+### WHAT
+
+* Tightened Edit Day exercise-list mode boundaries so `Reorder` mode now renders rows without the swipe-action wrapper, disables rail hover/focus behavior entirely, keeps tap-to-open inert, and shows only drag handles while reordering.
+* Refined trailing swipe rail presentation in normal mode so Edit/Delete actions sit in a cleaner integrated rail container without clipping or visual bleed-through.
+* Simplified Edit Day exercise-list chrome by removing the extra `Exercise list` heading/help paragraph and keeping only the `Reorder` / `Done` mode toggle above rows.
+* Removed outdated helper copy from the add/edit exercise flow, including the extra guidance text around choosing exercises and goal-measurement setup.
+
+### WHY
+
+* Swipe, tap, and drag interactions need hard separation so row actions feel predictable and the list layout stays stable when switching modes.
+* Reducing helper-text noise in add/edit keeps focus on primary actions and shortens the path to adding a usable exercise goal.
+
 ## [v0.3.88] – Edit Day Shared Row Actions and Explicit Reorder Mode
 
 ### WHAT
