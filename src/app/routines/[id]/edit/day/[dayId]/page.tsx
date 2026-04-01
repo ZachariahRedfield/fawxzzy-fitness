@@ -113,6 +113,8 @@ export default async function RoutineDayEditorPage({ params, searchParams }: Pag
         emptyLabel: "Goal missing",
       }),
       isCardio,
+      measurementType,
+      equipment: matchingExercise?.equipment ?? null,
       defaultDistanceUnit,
       defaults: {
         targetSets: exercise.target_sets,

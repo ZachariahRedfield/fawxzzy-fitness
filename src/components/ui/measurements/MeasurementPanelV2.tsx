@@ -116,31 +116,37 @@ export function MeasurementPanelV2({
           >
             <MetricHeader title={METRICS[0].title} suffix={METRICS[0].suffix(values)} />
             {"repsMax" in values ? (
-              <div className="mt-1 space-y-2">
-                <input
-                  name={names?.reps}
-                  type="number"
-                  min={0}
-                  value={values.reps}
-                  onChange={(event) => {
-                    ensureMetricActive("reps");
-                    onChange({ reps: event.target.value });
-                  }}
-                  className={valueInputClassName}
-                  placeholder="Min reps (required)"
-                />
-                <input
-                  name={names?.repsMax}
-                  type="number"
-                  min={0}
-                  value={values.repsMax ?? ""}
-                  onChange={(event) => {
-                    ensureMetricActive("reps");
-                    onChange({ repsMax: event.target.value });
-                  }}
-                  className={valueInputClassName}
-                  placeholder="Max reps (optional range)"
-                />
+              <div className="mt-1 grid grid-cols-2 gap-2">
+                <label className="space-y-1">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">Min</span>
+                  <input
+                    name={names?.reps}
+                    type="number"
+                    min={0}
+                    value={values.reps}
+                    onChange={(event) => {
+                      ensureMetricActive("reps");
+                      onChange({ reps: event.target.value });
+                    }}
+                    className={valueInputClassName}
+                    placeholder="Required"
+                  />
+                </label>
+                <label className="space-y-1">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">Max</span>
+                  <input
+                    name={names?.repsMax}
+                    type="number"
+                    min={0}
+                    value={values.repsMax ?? ""}
+                    onChange={(event) => {
+                      ensureMetricActive("reps");
+                      onChange({ repsMax: event.target.value });
+                    }}
+                    className={valueInputClassName}
+                    placeholder="Optional"
+                  />
+                </label>
               </div>
             ) : (
               <input
