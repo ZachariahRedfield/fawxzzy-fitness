@@ -32,3 +32,21 @@ This contract canonicalizes workout exercise rows and attached quick actions aro
 - Session and Today exercise rows should render metadata chips through one shared placement component so badge/chip positions stay stable across variants and wrapped titles.
 - Quick-action rows should derive skip/unskip labels and action emphasis from the variant contract without route-local styling branches.
 - Scaffold and dock layout concerns are intentionally out of scope for this contract.
+
+## Edit Day reorder row mobile layout contract
+
+When Edit Day enters explicit reorder mode, row rendering switches from the normal interactive card to a dedicated reorder-only row to protect title legibility on narrow widths.
+
+- **Column structure (left → right)**:
+  1. **Fixed thumbnail column** (`44px` visual container).
+  2. **Flexible text column** (`minmax(0, 1fr)`).
+  3. **Compact order badge column** (`~40px`, tabular numerals).
+  4. **Dedicated drag-handle column** (`~40px` touch target).
+- **Reorder mode interaction scope**:
+  - Disclosure/tap-to-expand behavior is disabled while reorder mode is active.
+  - Drag is owned only by the dedicated handle column (`touch-none` drag affordance).
+- **Text wrapping**:
+  - Exercise names must allow natural multi-line wrapping (`whitespace-normal`, `break-words`) and must not force per-character fragmentation.
+  - Metadata remains visible in the same flexible column while drag handle/badge remain fixed.
+- **Order badge stability**:
+  - Reorder numbering is rendered from current list index + 1 and remains visible throughout drag interactions.
