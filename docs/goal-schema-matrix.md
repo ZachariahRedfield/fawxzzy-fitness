@@ -16,3 +16,17 @@ This matrix defines the **minimum valid goal state** required before the Add Exe
 - Validation state is communicated in text directly under goal fields and under the CTA.
 - Goal mode only renders relevant metric cards for the chosen modality mode to improve mobile readability.
 - Empty goal previews use explicit guidance text instead of a visual-only "Goal missing" badge.
+
+## Goal form schema matrix (shared Add + inline Edit)
+
+Both **Add Exercise** and **Edit Day inline exercise editing** now use the same modality-aware goal form component and schema helper.
+
+| Exercise type | Rendered fields | Required | Optional |
+| --- | --- | --- | --- |
+| Strength | `sets`, `repsMin`, `repsMax`, `weight`, `time`, `calories` | `sets`, `repsMin` | `repsMax`, `weight`, `time`, `calories` |
+| Bodyweight | `sets`, `repsMin`, `repsMax`, `time`, `calories` | `sets`, `repsMin` | `repsMax`, `time`, `calories` |
+| Cardio (time) | `sets`, `duration`, `calories` | `sets`, `duration` | `calories` |
+| Cardio (distance) | `sets`, `distance`, `calories` | `sets`, `distance` | `calories` |
+| Cardio (time + distance) / Time mode | `sets`, `duration`, `calories` | `sets`, `duration` | `calories` |
+| Cardio (time + distance) / Distance mode | `sets`, `distance`, `calories` | `sets`, `distance` | `calories` |
+| Cardio (time + distance) / Time + Distance mode | `sets`, `duration`, `distance`, `calories` | `sets`, one of `duration` or `distance` | `calories` |
