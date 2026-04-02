@@ -6,6 +6,7 @@ import { isCardioExercise } from "@/lib/exercise-metadata";
 import { usesIntervalLanguage } from "@/lib/log-set-language";
 import { formatExerciseCountMetaLabel } from "@/lib/header-meta";
 import { normalizeExerciseDisplayName } from "@/lib/exercise-display";
+import { getDefaultMeasurementsForModality, getVisibleMetricsForModality, resolveGoalModality } from "@/lib/exercise-goal-validation";
 import type { DisplayTarget } from "@/lib/session-targets";
 import {
   addSetAction,
@@ -168,6 +169,12 @@ export default async function SessionPage({ params, searchParams }: PageProps) {
               movement_pattern: canonicalExercise?.movement_pattern ?? null,
             };
             const isCardio = isCardioExercise(exerciseMetadata);
+            const goalModality = resolveGoalModality({
+              measurementType: exercise.measurement_type ?? canonicalExercise?.measurement_type ?? "reps",
+              equipment: canonicalExercise?.equipment ?? null,
+            });
+            const visibleMetrics = getVisibleMetricsForModality(goalModality);
+            const defaultMetrics = new Set(getDefaultMeasurementsForModality(goalModality));
             const useIntervalLanguage = usesIntervalLanguage({
               intervalMode: false,
             });
@@ -179,6 +186,7 @@ export default async function SessionPage({ params, searchParams }: PageProps) {
               isSkipped: exercise.is_skipped,
               defaultUnit: exercise.default_unit ?? null,
               isCardio,
+              visibleMetrics,
               useIntervalLanguage,
               routineDayExerciseId: exercise.routine_day_exercise_id ?? null,
               image_howto_path: canonicalExercise?.image_howto_path ?? null,
@@ -195,19 +203,21 @@ export default async function SessionPage({ params, searchParams }: PageProps) {
                 const fromPlan = exercise.enabled_metrics;
                 if (fromPlan && [fromPlan.reps, fromPlan.weight, fromPlan.time, fromPlan.distance, fromPlan.calories].some((value) => value === true)) {
                   return {
-                    reps: fromPlan.reps === true,
-                    weight: fromPlan.weight === true,
-                    time: fromPlan.time === true,
-                    distance: fromPlan.distance === true,
-                    calories: fromPlan.calories === true,
+                    reps: visibleMetrics.includes("reps") && fromPlan.reps === true,
+                    weight: visibleMetrics.includes("weight") && fromPlan.weight === true,
+                    time: visibleMetrics.includes("time") && fromPlan.time === true,
+                    distance: visibleMetrics.includes("distance") && fromPlan.distance === true,
+                    calories: visibleMetrics.includes("calories") && fromPlan.calories === true,
                   };
                 }
 
-                if (isCardio) {
-                  return { reps: false, weight: false, time: true, distance: false, calories: false };
-                }
-
-                return { reps: true, weight: true, time: false, distance: false, calories: false };
+                return {
+                  reps: defaultMetrics.has("reps"),
+                  weight: defaultMetrics.has("weight"),
+                  time: defaultMetrics.has("time"),
+                  distance: defaultMetrics.has("distance"),
+                  calories: defaultMetrics.has("calories"),
+                };
               })(),
               goalLabel: formatSessionGoalLabel(displayTarget, unitLabel),
               prefill: getGoalPrefill(displayTarget, unitLabel),
