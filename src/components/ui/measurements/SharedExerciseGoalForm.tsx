@@ -3,23 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { ExerciseGoalForm, type ExerciseGoalFormState } from "@/components/ui/measurements/ExerciseGoalForm";
 import { cn } from "@/lib/cn";
-import type { GoalModality, MeasurementSelection } from "@/lib/exercise-goal-validation";
-
-function getDefaultMeasurements(modality: GoalModality): MeasurementSelection[] {
-  switch (modality) {
-    case "bodyweight":
-      return ["reps"];
-    case "cardio_time":
-      return ["time"];
-    case "cardio_distance":
-      return ["distance"];
-    case "cardio_time_distance":
-      return ["time", "distance"];
-    case "strength":
-    default:
-      return ["reps", "weight"];
-  }
-}
+import {
+  getDefaultMeasurementsForModality,
+  getGoalSummaryEmptyLabel,
+  type GoalModality,
+} from "@/lib/exercise-goal-validation";
 
 export function inferGoalModeFromState(state: ExerciseGoalFormState): GoalModality {
   const hasTime = state.measurements.includes("time") || Boolean(state.duration.trim());
@@ -89,7 +77,7 @@ export function SharedExerciseGoalForm({
                   )}
                   onClick={() => {
                     setSelectedGoalMode(choice.value);
-                    onStateChange({ ...state, measurements: getDefaultMeasurements(choice.value) });
+                    onStateChange({ ...state, measurements: getDefaultMeasurementsForModality(choice.value) });
                   }}
                 >
                   {choice.label}
@@ -106,7 +94,7 @@ export function SharedExerciseGoalForm({
         onStateChange={onStateChange}
         names={names}
         includeSetsInSummary={includeSetsInSummary}
-        emptySummaryLabel={emptySummaryLabel}
+        emptySummaryLabel={emptySummaryLabel ?? getGoalSummaryEmptyLabel(effectiveGoalModality)}
         showValidationMessage={showValidationMessage}
       />
       <input type="hidden" name="defaultUnit" value={state.measurements.includes("distance") ? state.distanceUnit : "mi"} />

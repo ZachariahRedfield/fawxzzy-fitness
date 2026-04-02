@@ -23,26 +23,32 @@ export type GoalValidationResult = {
 export const GOAL_SCHEMA_MATRIX: Record<GoalModality, {
   requiredFields: GoalValidationResult["requiredFields"];
   optionalFields: MeasurementSelection[];
+  prominentFields: MeasurementSelection[];
 }> = {
   strength: {
     requiredFields: ["sets", "repsMin"],
     optionalFields: ["weight", "time", "calories"],
+    prominentFields: ["reps", "weight"],
   },
   bodyweight: {
     requiredFields: ["sets", "repsMin"],
     optionalFields: ["time", "calories"],
+    prominentFields: ["reps"],
   },
   cardio_time: {
     requiredFields: ["sets", "duration"],
     optionalFields: ["calories"],
+    prominentFields: ["time"],
   },
   cardio_distance: {
     requiredFields: ["sets", "distance"],
-    optionalFields: ["calories"],
+    optionalFields: ["time", "calories"],
+    prominentFields: ["distance"],
   },
   cardio_time_distance: {
     requiredFields: ["sets", "duration", "distance"],
     optionalFields: ["calories"],
+    prominentFields: ["time", "distance"],
   },
 };
 
@@ -92,18 +98,38 @@ export function resolveGoalModality({
 }
 
 export function getVisibleMetricsForModality(modality: GoalModality): MeasurementSelection[] {
+  return [...GOAL_SCHEMA_MATRIX[modality].prominentFields, ...GOAL_SCHEMA_MATRIX[modality].optionalFields];
+}
+
+export function getDefaultMeasurementsForModality(modality: GoalModality): MeasurementSelection[] {
   switch (modality) {
     case "bodyweight":
-      return ["reps", "time", "calories"];
+      return ["reps"];
     case "cardio_time":
-      return ["time", "calories"];
+      return ["time"];
     case "cardio_distance":
-      return ["distance", "calories"];
+      return ["distance"];
     case "cardio_time_distance":
-      return ["time", "distance", "calories"];
+      return ["time", "distance"];
     case "strength":
     default:
-      return ["reps", "weight", "time", "calories"];
+      return ["reps", "weight"];
+  }
+}
+
+export function getGoalSummaryEmptyLabel(modality: GoalModality): string {
+  switch (modality) {
+    case "bodyweight":
+      return "Add sets and reps to preview this bodyweight goal.";
+    case "cardio_time":
+      return "Add a time target to preview this cardio goal.";
+    case "cardio_distance":
+      return "Add a distance target to preview this cardio goal.";
+    case "cardio_time_distance":
+      return "Add a time or distance target to preview this cardio goal.";
+    case "strength":
+    default:
+      return "Add sets and reps to preview this strength goal.";
   }
 }
 

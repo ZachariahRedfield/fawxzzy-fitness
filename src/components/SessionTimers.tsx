@@ -107,6 +107,7 @@ export function SetLoggerCard({
   prefill,
   defaultDistanceUnit,
   isCardio,
+  visibleMetrics,
   useIntervalLanguage = false,
   initialEnabledMetrics,
   routineDayExerciseId,
@@ -135,6 +136,7 @@ export function SetLoggerCard({
   };
   defaultDistanceUnit: "mi" | "km" | "m" | null;
   isCardio: boolean;
+  visibleMetrics: Array<"reps" | "weight" | "time" | "distance" | "calories">;
   useIntervalLanguage?: boolean;
   initialEnabledMetrics: {
     reps: boolean;
@@ -844,6 +846,7 @@ export function SetLoggerCard({
           }}
           className={tapFeedbackClass}
           showInnerHeader={false}
+          visibleMetrics={visibleMetrics}
           leadingContent={(
             <div className="flex items-start justify-between gap-2 rounded-xl border border-white/8 bg-[rgb(var(--surface-rgb)/0.3)] px-3 py-2">
               <div className="min-w-0">

@@ -1,6 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { GOAL_SCHEMA_MATRIX, validateGoalConfiguration } from "./exercise-goal-validation.ts";
+import {
+  GOAL_SCHEMA_MATRIX,
+  getDefaultMeasurementsForModality,
+  getVisibleMetricsForModality,
+  validateGoalConfiguration,
+} from "./exercise-goal-validation.ts";
 
 test("strength prescription requires reps and sets", () => {
   const result = validateGoalConfiguration({
@@ -86,4 +91,13 @@ test("time + distance cardio accepts time-only mode", () => {
 
 test("goal schema matrix keeps strength minimum requirements stable", () => {
   assert.deepEqual(GOAL_SCHEMA_MATRIX.strength.requiredFields, ["sets", "repsMin"]);
+});
+
+test("cardio distance keeps time optional while hiding strength-only metrics", () => {
+  assert.deepEqual(getVisibleMetricsForModality("cardio_distance"), ["distance", "time", "calories"]);
+});
+
+test("default measurements stay modality-driven", () => {
+  assert.deepEqual(getDefaultMeasurementsForModality("strength"), ["reps", "weight"]);
+  assert.deepEqual(getDefaultMeasurementsForModality("cardio_time"), ["time"]);
 });

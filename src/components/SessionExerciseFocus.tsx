@@ -75,6 +75,7 @@ export type SessionExerciseFocusItem = {
   isSkipped: boolean;
   defaultUnit: "mi" | "km" | "m" | null;
   isCardio: boolean;
+  visibleMetrics: Array<"reps" | "weight" | "time" | "distance" | "calories">;
   useIntervalLanguage: boolean;
   initialEnabledMetrics: {
     reps: boolean;
@@ -392,6 +393,7 @@ export function SessionExerciseFocus({
             prefill={selectedExercise!.prefill}
             defaultDistanceUnit={selectedExercise!.defaultUnit}
             isCardio={selectedExercise!.isCardio}
+            visibleMetrics={selectedExercise!.visibleMetrics}
             useIntervalLanguage={selectedExercise!.useIntervalLanguage}
             initialEnabledMetrics={selectedExercise!.initialEnabledMetrics}
             routineDayExerciseId={selectedExercise!.routineDayExerciseId}
