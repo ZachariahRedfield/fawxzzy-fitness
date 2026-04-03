@@ -10,6 +10,7 @@
 - Timer dock clearance is owned by the mobile shell wrapper (`--app-mobile-bottom-dock-height`) and applies once per screen.
 - The collapsed exercise list keeps only intrinsic row spacing; it must not add dock-height padding.
 - The session shell keeps dock-height reservation globally; inner list components should not stack a second legacy bottom-action inset.
+- Route/client lists must not add static tail padding (for example `pb-24`) when rendered inside the mobile shell.
 - Exercise card + quick-log strip spacing stays compact:
   - list row gap: `space-y-1.5`
   - quick-log strip top offset: `mt-0.5`

@@ -8,6 +8,12 @@ type ScrollContainerProps = {
 };
 
 export function ScrollContainer({ children, className, style }: ScrollContainerProps) {
-  return <div className={cn("flex-1 min-h-0 overflow-y-auto overscroll-contain", className)} style={style}>{children}</div>;
+  return (
+    <div
+      className={cn("flex-1 min-h-0 max-w-full overflow-x-hidden overflow-y-auto overscroll-contain [overscroll-behavior-x:none] [touch-action:pan-y]", className)}
+      style={style}
+    >
+      {children}
+    </div>
+  );
 }
-

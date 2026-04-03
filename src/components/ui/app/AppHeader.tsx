@@ -36,6 +36,7 @@ export function AppHeader({
   const hasSubtitleRow = Boolean(resolvedSubtitle || subtitleRight);
   const hasMeta = Boolean(meta);
   const actionNode = action ?? leading;
+  const hasInlineSecondaryMeta = Boolean(resolvedSubtitle && hasMeta && !subtitleRight);
 
   return (
     <header className={cn(headerTokens.horizontalPadding, headerTokens.contentBottomGap, "space-y-0", className)}>
@@ -45,7 +46,7 @@ export function AppHeader({
           <TitleText as={titleAs} className={cn("block text-left", headerTokens.titleClassName, titleClassName)}>{title}</TitleText>
           {hasSubtitleRow || hasMeta ? (
             <div className={cn(headerTokens.titleToSecondaryGap, headerTokens.secondaryBlockGap)}>
-              {hasSubtitleRow ? (
+              {hasSubtitleRow && !hasInlineSecondaryMeta ? (
                 <div className="flex items-start justify-between gap-2">
                   {resolvedSubtitle ? (
                     <div className="min-w-0 text-left text-sm text-[rgb(var(--text)/0.72)]">{resolvedSubtitle}</div>
@@ -56,7 +57,15 @@ export function AppHeader({
                 </div>
               ) : null}
               {hasMeta ? (
-                <div className="text-left text-sm text-[rgb(var(--text)/0.6)]">{meta}</div>
+                hasInlineSecondaryMeta ? (
+                  <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-left text-sm text-[rgb(var(--text)/0.66)]">
+                    <span className="min-w-0 text-[rgb(var(--text)/0.72)]">{resolvedSubtitle}</span>
+                    <span aria-hidden="true" className="text-[rgb(var(--text)/0.46)]">•</span>
+                    <span className="min-w-0 text-[rgb(var(--text)/0.6)]">{meta}</span>
+                  </div>
+                ) : (
+                  <div className="text-left text-sm text-[rgb(var(--text)/0.6)]">{meta}</div>
+                )
               ) : null}
             </div>
           ) : null}

@@ -15,7 +15,7 @@ import type { SessionSummary } from "./session-summary";
 
 function formatSummaryLine(session: SessionSummary) {
   const duration = session.durationSec ? formatDurationShort(session.durationSec) : "0m";
-  return `${duration} • ${session.exerciseCount} ${session.exerciseCount === 1 ? "exercise" : "exercises"} • ${session.setCount} ${session.setCount === 1 ? "set" : "sets"}`;
+  return `${duration} • ${session.setCount} ${session.setCount === 1 ? "set" : "sets"}`;
 }
 
 function formatSubtitle(session: SessionSummary) {
@@ -41,11 +41,11 @@ function HistorySessionCard({
       <ExerciseCard
         variant={viewMode === "compact" ? "compact" : "summary"}
         state={selected ? "selected" : "default"}
-        title={viewMode === "compact" ? `${session.routineTitle || "Unknown routine"} | ${formatSubtitle(session)}` : (session.routineTitle || "Unknown routine")}
-        subtitle={viewMode === "compact" ? undefined : formatSubtitle(session)}
+        title={session.routineTitle || "Unknown routine"}
+        subtitle={formatSubtitle(session)}
         rightIcon={<ChevronRightIcon className="h-5 w-5 shrink-0 self-center text-[rgb(var(--text)/0.6)]" />}
       >
-        {viewMode === "compact" ? null : <p className="text-xs text-[rgb(var(--text)/0.82)]">{formatSummaryLine(session)}</p>}
+        <p className="text-xs text-[rgb(var(--text)/0.82)]">{formatSummaryLine(session)}</p>
         {viewMode === "detailed" ? <p className="line-clamp-1 text-xs text-[rgb(var(--text)/0.7)]">Top set • {session.topSet ? `${session.topSet.exerciseName} • ${session.topSet.display}` : "No set data"}</p> : null}
       </ExerciseCard>
     </Link>
@@ -67,7 +67,7 @@ export function HistorySessionsClient({
       <HistoryTitleControlShell label="Sessions" viewMode={viewMode} onViewModeChange={setViewMode} />
 
       {sessions.length > 0 ? (
-        <ul className="space-y-1.5 pb-24">
+        <ul className="space-y-1.5">
           {sessions.map((session) => (
             <li key={session.id}>
               <HistorySessionCard session={session} selected={session.id === selectedSessionId} viewMode={viewMode} />

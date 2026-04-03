@@ -41,7 +41,7 @@ export function ActiveRoutineSummaryCard({
         title={title}
         subtitle={metadata}
         action={status}
-        className="rounded-[1.25rem] bg-[rgb(var(--bg)/0.18)] p-0 shadow-none"
+        withPanel={false}
       />
     </AppPanel>
   );
