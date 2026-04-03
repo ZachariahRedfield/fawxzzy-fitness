@@ -51,7 +51,7 @@ export function AnchoredSelectorPanel({
       data-footer-dock={screenRecipe.footerDock}
       className={cn(screenRecipe.headerPanelClassName, className)}
     >
-      <div className="space-y-2 rounded-[1.25rem] border border-white/10 bg-[rgb(var(--bg)/0.18)] p-3.5">
+      <div className="space-y-1.5 rounded-[1.25rem] border border-white/10 bg-[rgb(var(--bg)/0.18)] px-3.5 pb-3 pt-3">
         <SharedScreenHeader
           recipe={recipe}
           eyebrow={eyebrow}
@@ -64,7 +64,7 @@ export function AnchoredSelectorPanel({
         />
 
         {hasSummary ? (
-          <div className="min-w-0 space-y-1 border-t border-white/8 pt-3">
+          <div className="min-w-0 space-y-1 border-t border-white/8 pt-2.5">
             {summaryLabel ? (
               <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[rgb(var(--text)/0.52)]">
                 {summaryLabel}
@@ -78,14 +78,14 @@ export function AnchoredSelectorPanel({
           <div
             id={revealId}
             aria-label={revealLabel}
-            className="space-y-2 border-t border-white/10 pt-3"
+            className="space-y-1.5 border-t border-white/10 pt-2.5"
           >
             {revealContent}
           </div>
         ) : null}
       </div>
 
-      {children ? <div className={cn("space-y-3", bodyClassName)}>{children}</div> : null}
+      {children ? <div className={cn("space-y-2.5", bodyClassName)}>{children}</div> : null}
     </AppPanel>
   );
 }
