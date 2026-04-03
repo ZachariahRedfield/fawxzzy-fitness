@@ -10,7 +10,8 @@ type AppShellProps = {
 export function AppShell({ children, className, topNavMode = "main" }: AppShellProps) {
   const shellStyle = ({
     "--app-header-offset": topNavMode === "none" ? "0px" : "var(--header-h)",
-    "--app-header-gap": topNavMode === "main" ? "8px" : "0px",
+    "--app-header-gap": topNavMode === "main" ? "10px" : "0px",
+    "--app-top-chrome-content-gap": "10px",
     "--app-safe-top": "env(safe-area-inset-top, 0px)",
     "--app-safe-bottom": "env(safe-area-inset-bottom, 0px)",
     "--app-safe-left": "env(safe-area-inset-left, 0px)",
@@ -22,7 +23,7 @@ export function AppShell({ children, className, topNavMode = "main" }: AppShellP
   } as CSSProperties);
 
   return (
-    <div className={cn("app-shell h-[100dvh] min-h-0 overflow-hidden flex flex-col pt-[var(--app-top-offset)]", className)} data-top-nav-mode={topNavMode} style={shellStyle}>
+    <div className={cn("app-shell h-[100dvh] min-h-0 overflow-hidden overflow-x-hidden flex flex-col pt-[var(--app-top-offset)]", className)} data-top-nav-mode={topNavMode} style={shellStyle}>
       {children}
     </div>
   );

@@ -45,12 +45,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="relative overflow-x-hidden">
+      <body className="relative overflow-x-hidden [overscroll-behavior-x:none]">
         <ToastProvider>
           <GlassEffectsBootstrap />
           <MobileViewportGuard />
           <AnimatedBackground />
-          <main className="safe-area-main relative z-10 mx-auto min-h-screen w-full max-w-md px-4 pb-[var(--app-bottom-gap)]">
+          <main className="safe-area-main relative z-10 mx-auto min-h-screen w-full max-w-full px-4 pb-[var(--app-bottom-gap)] md:max-w-md">
             {children}
           </main>
         </ToastProvider>

@@ -49,19 +49,23 @@ export function MobileScreenShell({
 
   return (
     <BottomActionsProvider>
-      <section className={cn("relative flex min-h-0 flex-1 flex-col", className)}>
-        {topChrome ? <div className="z-30 flex-none">{topChrome}</div> : null}
+      <section className={cn("relative flex min-h-0 max-w-full flex-1 flex-col overflow-x-hidden", className)}>
+        {topChrome ? <div className="z-30 flex-none overflow-x-clip">{topChrome}</div> : null}
 
         <ScrollContainer
           className={cn("min-h-0 flex-1", scrollClassName)}
           style={{ "--app-mobile-bottom-dock-height": `${dockHeight}px` } as CSSProperties}
         >
-          <div className="pb-[calc(var(--app-mobile-bottom-dock-height,0px)+12px)]">
+          <div className={cn(
+            topChrome ? "pt-[var(--app-top-chrome-content-gap,10px)]" : undefined,
+            "max-w-full pb-[calc(var(--app-mobile-bottom-dock-height,0px)+8px)]",
+          )}
+          >
             {children}
           </div>
         </ScrollContainer>
 
-        <div ref={dockRef} className="z-40 flex-none">
+        <div ref={dockRef} className="z-40 flex-none overflow-x-clip">
           {bottomDock ? bottomDock : <BottomActionsSlot />}
         </div>
       </section>
