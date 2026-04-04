@@ -32,11 +32,18 @@ export function AppHeader({
   titleClassName?: string;
   titleAs?: "h1" | "h2" | "h3";
 }) {
+  const normalizeHeaderText = (value: ReactNode) => {
+    if (typeof value !== "string") return value;
+    return value.replace(/\s*[•·]\s*/g, "\u00A0•\u00A0");
+  };
+
   const resolvedSubtitle = subtitle ?? subtitleLeft;
   const hasSubtitleRow = Boolean(resolvedSubtitle || subtitleRight);
   const hasMeta = Boolean(meta);
   const actionNode = action ?? leading;
   const shouldMergeSubtitleAndMeta = !subtitleRight && Boolean(resolvedSubtitle) && hasMeta;
+  const normalizedSubtitle = normalizeHeaderText(resolvedSubtitle);
+  const normalizedMeta = normalizeHeaderText(meta);
 
   return (
     <header className={cn(headerTokens.horizontalPadding, headerTokens.contentBottomGap, "space-y-0", className)}>
@@ -49,15 +56,14 @@ export function AppHeader({
               {hasSubtitleRow ? (
                 <div className={cn("flex min-w-0 gap-2", subtitleRight ? "items-start justify-between" : "items-center")}>
                   {shouldMergeSubtitleAndMeta ? (
-                    <div className="min-w-0 text-left text-sm text-[rgb(var(--text)/0.72)] [text-wrap:pretty]">
-                      <span className="align-middle">{resolvedSubtitle}</span>
-                      <span className="inline-flex items-center whitespace-nowrap">
-                        <span className="px-1 align-middle text-[rgb(var(--text)/0.5)]" aria-hidden="true">•</span>
-                        <span className="align-middle text-[rgb(var(--text)/0.6)]">{meta}</span>
-                      </span>
+                    <div className="min-w-0 text-left text-sm [text-wrap:pretty]">
+                      <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+                        <span className="min-w-0 text-[rgb(var(--text)/0.72)]">{normalizedSubtitle}</span>
+                        <span className="text-[rgb(var(--text)/0.6)]">{normalizedMeta}</span>
+                      </div>
                     </div>
                   ) : resolvedSubtitle ? (
-                    <div className="min-w-0 text-left text-sm text-[rgb(var(--text)/0.72)] [text-wrap:pretty]">{resolvedSubtitle}</div>
+                    <div className="min-w-0 text-left text-sm text-[rgb(var(--text)/0.72)] [text-wrap:pretty]">{normalizedSubtitle}</div>
                   ) : <span />}
                   {subtitleRight ? (
                     <div className="shrink-0 text-right text-sm text-[rgb(var(--text)/0.6)]">{subtitleRight}</div>
@@ -65,7 +71,7 @@ export function AppHeader({
                 </div>
               ) : null}
               {hasMeta && !shouldMergeSubtitleAndMeta ? (
-                <div className="text-left text-sm text-[rgb(var(--text)/0.6)]">{meta}</div>
+                <div className="text-left text-sm text-[rgb(var(--text)/0.6)]">{normalizedMeta}</div>
               ) : null}
             </div>
           ) : null}
