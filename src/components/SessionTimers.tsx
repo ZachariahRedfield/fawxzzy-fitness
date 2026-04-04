@@ -800,7 +800,7 @@ export function SetLoggerCard({
   }
 
   return (
-    <div className="flex min-h-0 flex-col space-y-3">
+    <div className="flex min-h-0 flex-col space-y-2">
       {/* Manual QA checklist:
           - Add/exercise metric hints are visible inside input boxes
           - No Set Timer UI remains; duration logging still works via mm:ss
@@ -843,17 +843,17 @@ export function SetLoggerCard({
           showInnerHeader={false}
           visibleMetrics={(Object.entries(visibleMetrics) as Array<[keyof typeof visibleMetrics, boolean]>).filter(([, enabled]) => enabled).map(([metric]) => metric)}
           leadingContent={(
-            <div className="flex items-start justify-between gap-2 rounded-xl border border-white/8 bg-[rgb(var(--surface-rgb)/0.3)] px-3 py-2">
+            <div className="flex items-start justify-between gap-2 rounded-xl border border-white/8 bg-[rgb(var(--surface-rgb)/0.3)] px-2.5 py-1.5">
               <div className="min-w-0">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">This set logs</p>
-                <p className="mt-0.5 truncate text-sm text-text/90">{currentSetLabel} • {liveSummaryText}</p>
+                <p className="mt-0.5 line-clamp-2 text-[13px] leading-snug text-text/90">{currentSetLabel} • {liveSummaryText}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setWarmupValue(!resolvedIsWarmup)}
                 aria-pressed={resolvedIsWarmup}
                 className={[
-                  "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] transition",
+                  "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] transition",
                   resolvedIsWarmup
                     ? "border-emerald-400/40 bg-emerald-400/14 text-emerald-100"
                     : "border-white/12 bg-white/[0.04] text-muted hover:text-text",
@@ -868,13 +868,13 @@ export function SetLoggerCard({
           rpe={rpe}
           onRpeChange={setRpe}
           footerContent={(
-            <div className="space-y-2.5">
-              <div className="rounded-lg bg-[rgb(var(--surface-rgb)/0.42)] px-2.5 py-2">
-                <div className="mb-2 flex items-center justify-between gap-2 px-1">
+            <div className="space-y-2">
+              <div className="rounded-lg bg-[rgb(var(--surface-rgb)/0.42)] px-2.5 py-1.5">
+                <div className="mb-1.5 flex items-center justify-between gap-2 px-1">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">Sets</span>
                   <span className="text-[11px] text-muted">{sets.length} logged</span>
                 </div>
-                <ul className="space-y-1.5 text-sm">
+                <ul className="space-y-1 text-sm">
                   {animatedSets.map((set, index) => (
                     <li
                       key={set.id}
