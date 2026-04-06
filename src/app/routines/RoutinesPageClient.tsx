@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState, useTransition } from "react";
 import { BottomActionSplit } from "@/components/layout/CanonicalBottomActions";
 import { usePublishBottomActions } from "@/components/layout/bottom-actions";
+import { BottomDockButton, BottomDockLink } from "@/components/layout/BottomDockButton";
 import {
   RoutinesCardList,
   RoutinesListEmpty,
@@ -22,8 +23,6 @@ import {
   resolveDayCardState,
   REST_DAY_CARD_COPY,
 } from "@/components/day-list/DayList";
-import { SecondaryButton } from "@/components/ui/AppButton";
-import { getAppButtonClassName } from "@/components/ui/appButtonClasses";
 
 export type RoutineSwitcherItem = {
   id: string;
@@ -83,10 +82,20 @@ export function RoutinesPageClient({
 }) {
   const router = useRouter();
   const [isRoutineListOpen, setIsRoutineListOpen] = useState(initialRoutineListOpen);
+  const [isDayListOpen, setIsDayListOpen] = useState(Boolean(activeRoutineId));
   const [isPending, startTransition] = useTransition();
 
   const handleToggleRoutineList = useCallback(() => {
-    setIsRoutineListOpen((previous) => !previous);
+    setIsRoutineListOpen((previous) => {
+      const next = !previous;
+      if (next) setIsDayListOpen(false);
+      return next;
+    });
+  }, []);
+
+  const handleToggleDayList = useCallback(() => {
+    setIsDayListOpen((previous) => !previous);
+    setIsRoutineListOpen(false);
   }, []);
 
   const handleSwitchRoutine = useCallback((routineId: string) => {
@@ -111,25 +120,32 @@ export function RoutinesPageClient({
   const allRoutinesMeta = !isRoutineListOpen && !activeRoutineId ? formatRoutineCount(routines.length) : undefined;
 
   const actionsNode = useMemo(() => {
-    const toggleButton = (
-      <SecondaryButton
+    const routinesToggleButton = (
+      <BottomDockButton
         type="button"
-        className="w-full min-h-[44px] justify-center border-white/14 bg-transparent text-center text-[rgb(var(--text)/0.78)] shadow-none hover:bg-white/[0.05]"
+        intent={isRoutineListOpen ? "toggleActive" : "toggleInactive"}
         onClick={handleToggleRoutineList}
         aria-expanded={isRoutineListOpen}
-        aria-controls="routines-switch-list"
       >
-        <span>{isRoutineListOpen ? "Hide All Routines" : "View All Routines"}</span>
-      </SecondaryButton>
+        {isRoutineListOpen ? "Hide" : "Routines"}
+      </BottomDockButton>
+    );
+
+    const daysToggleButton = (
+      <BottomDockButton
+        type="button"
+        intent={isDayListOpen ? "toggleActive" : "toggleInactive"}
+        onClick={handleToggleDayList}
+        disabled={!activeRoutineId}
+      >
+        {isDayListOpen ? "Hide" : "Days"}
+      </BottomDockButton>
     );
 
     const editRoutineAction = activeRoutineEditHref ? (
-      <Link
-        href={activeRoutineEditHref}
-        className={getAppButtonClassName({ variant: "secondary", size: "md", fullWidth: true })}
-      >
-        Edit Routine
-      </Link>
+      <BottomDockLink href={activeRoutineEditHref} intent="positive">
+        Edit
+      </BottomDockLink>
     ) : (
       <div aria-hidden="true" />
     );
@@ -137,14 +153,11 @@ export function RoutinesPageClient({
     if (isRoutineListOpen) {
       return (
         <BottomActionSplit
-          secondary={toggleButton}
+          secondary={routinesToggleButton}
           primary={(
-            <Link
-              href={newRoutineHref}
-              className={getAppButtonClassName({ variant: "primary", size: "md", fullWidth: true })}
-            >
-              New Routine
-            </Link>
+            <BottomDockLink href={newRoutineHref} intent="positive">
+              New
+            </BottomDockLink>
           )}
         />
       );
@@ -152,11 +165,11 @@ export function RoutinesPageClient({
 
     return (
       <BottomActionSplit
-        secondary={toggleButton}
+        secondary={isDayListOpen ? routinesToggleButton : daysToggleButton}
         primary={editRoutineAction}
       />
     );
-  }, [activeRoutineEditHref, handleToggleRoutineList, isRoutineListOpen, newRoutineHref]);
+  }, [activeRoutineEditHref, activeRoutineId, handleToggleDayList, handleToggleRoutineList, isDayListOpen, isRoutineListOpen, newRoutineHref]);
 
   usePublishBottomActions(actionsNode);
 
@@ -197,7 +210,7 @@ export function RoutinesPageClient({
           <div />
         </RoutinesSectionCard>
       ) : null}
-      {screenMode === "selected-routine-days" ? (
+      {screenMode === "selected-routine-days" && isDayListOpen ? (
         <SharedDayListSection title={ROUTINES_IA_COPY.routineDays.title} meta={formatRoutineDayCount(days.length)}>
           {days.length > 0 ? (
             <DayList>
