@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { RoutineDetailsBottomActionPublisher, RoutineEditorPageBody } from "@/components/routines/RoutineEditorShared";
+import { BottomDockButton, BottomDockLink } from "@/components/layout/BottomDockButton";
 import { RoutineEditorFormFields } from "@/components/routines/RoutineEditorForm";
-import { AppButton } from "@/components/ui/AppButton";
 import { useToast } from "@/components/ui/ToastProvider";
 import { createRoutineAction } from "@/app/routines/actions";
 import { buildRoutineDetailsSnapshot, normalizeRoutineDetailsDraft, validateRoutineDetailsDraft, type RoutineDetailsDraft } from "@/lib/routine-details-form";
@@ -93,11 +93,15 @@ export function NewRoutineDraftForm({ defaults }: { defaults: RoutineDetailsDraf
       </RoutineEditorPageBody>
 
       <RoutineDetailsBottomActionPublisher
+        secondary={(
+          <BottomDockLink href="/routines" intent="info">
+            Back
+          </BottomDockLink>
+        )}
         primary={(
-          <AppButton
+          <BottomDockButton
             type="button"
-            variant="primary"
-            fullWidth
+            intent="positive"
             disabled={!canCreate}
             onClick={() => {
               setError(null);
@@ -135,8 +139,8 @@ export function NewRoutineDraftForm({ defaults }: { defaults: RoutineDetailsDraf
               });
             }}
           >
-            Create Routine
-          </AppButton>
+            Create
+          </BottomDockButton>
         )}
       />
     </>

@@ -147,12 +147,11 @@ export function EditDaySettingsAutosaveForm({ routineId, daySummaryCounts, routi
       )}
       subtitle={<DayTaxonomyHeaderSummary dayName={previewDayName} summary={daySummaryCounts} isRest={draft.isRest} />}
       action={(
-        <div className="flex items-center gap-2">
-          {headerActionSlotId ? <div id={headerActionSlotId} /> : null}
-          <TopRightBackButton href={backHref} ariaLabel="Back to Day" historyBehavior="fallback-only" />
-        </div>
+        <TopRightBackButton href={backHref} ariaLabel="Back to Day" historyBehavior="fallback-only" />
       )}
-    />
+    >
+      {headerActionSlotId ? <div id={headerActionSlotId} className="w-full" /> : null}
+    </RoutineEditorPageHeader>
   );
 
   return (

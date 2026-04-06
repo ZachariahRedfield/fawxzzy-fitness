@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { ExercisePicker } from "@/components/ExercisePicker";
-import { BottomActionStackedPrimary } from "@/components/layout/CanonicalBottomActions";
+import { BottomActionSplit, BottomActionStackedPrimary } from "@/components/layout/CanonicalBottomActions";
 import { PublishBottomActions } from "@/components/layout/PublishBottomActions";
 import { ScrollScreenWithBottomActions } from "@/components/layout/ScrollScreenWithBottomActions";
 import { RoutineBackButton } from "@/components/RoutineBackButton";
@@ -141,18 +141,18 @@ export function RoutineEditorPageBody({
 
 export function RoutineDetailsBottomActionDock({
   primary,
-  utility,
+  secondary,
   className,
 }: {
   primary: ReactNode;
-  utility?: ReactNode;
+  secondary: ReactNode;
   className?: string;
 }) {
   // Shared canonical bottom dock rhythm for Routine Details routes.
   return (
-    <BottomActionStackedPrimary
+    <BottomActionSplit
       className={className}
-      utility={utility}
+      secondary={secondary}
       primary={primary}
     />
   );
@@ -160,16 +160,16 @@ export function RoutineDetailsBottomActionDock({
 
 export function RoutineDetailsBottomActionPublisher({
   primary,
-  utility,
+  secondary,
   className,
 }: {
   primary: ReactNode;
-  utility?: ReactNode;
+  secondary: ReactNode;
   className?: string;
 }) {
   return (
     <PublishBottomActions>
-      <RoutineDetailsBottomActionDock primary={primary} utility={utility} className={className} />
+      <RoutineDetailsBottomActionDock primary={primary} secondary={secondary} className={className} />
     </PublishBottomActions>
   );
 }

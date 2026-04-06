@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ConfirmDestructiveModal } from "@/components/ui/ConfirmDestructiveModal";
-import { AppButton } from "@/components/ui/AppButton";
+import { BottomDockButton } from "@/components/layout/BottomDockButton";
 import { useToast } from "@/components/ui/ToastProvider";
 import { deleteRoutineAction } from "@/app/routines/actions";
 
@@ -23,16 +23,15 @@ export function DeleteRoutineButton({
 
   return (
     <>
-      <AppButton
+      <BottomDockButton
         type="button"
-        variant="destructive"
-        size="md"
+        intent="danger"
         onClick={() => setIsOpen(true)}
         disabled={isPending}
         className={className}
       >
-        {isPending ? "Deleting..." : "Delete Routine"}
-      </AppButton>
+        {isPending ? "Deleting..." : "Delete"}
+      </BottomDockButton>
 
       <ConfirmDestructiveModal
         open={isOpen}

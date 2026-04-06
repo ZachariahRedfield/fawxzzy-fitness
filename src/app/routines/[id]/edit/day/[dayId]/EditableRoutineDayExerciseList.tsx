@@ -426,7 +426,7 @@ export function EditableRoutineDayExerciseList({
       aria-pressed={reorderMode}
       disabled={isRestDay}
       className={cn(
-        "inline-flex min-h-8 items-center justify-center rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] transition",
+        "flex min-h-10 w-full items-center justify-center rounded-[0.95rem] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition",
         reorderMode
           ? "border-emerald-400/40 bg-emerald-400/14 text-emerald-100"
           : "border-white/12 bg-white/[0.04] text-muted hover:bg-white/[0.06] hover:text-text",
@@ -460,7 +460,7 @@ export function EditableRoutineDayExerciseList({
     <BottomActionDock
       left={<div id="edit-day-rest-toggle-slot" className="w-full" />}
       right={(
-        <BottomDockButton type="button" variant="primary" onClick={handleAddExercisePress} disabled={isAddingExercise}>
+        <BottomDockButton type="button" intent="positive" onClick={handleAddExercisePress} disabled={isAddingExercise}>
           Add Exercise
         </BottomDockButton>
       )}
@@ -475,12 +475,12 @@ export function EditableRoutineDayExerciseList({
           {ctaDockState.variant === "edit_exercise" && activeExercise ? (
             <BottomActionDock
               left={(
-                <DockButton type="button" variant="secondary" onClick={() => setSelectedExerciseId(activeExercise.exerciseId)}>
+                <DockButton type="button" intent="info" onClick={() => setSelectedExerciseId(activeExercise.exerciseId)}>
                   View Exercise
                 </DockButton>
               )}
               right={(
-                <DockButton type="button" variant="destructive" onClick={() => setDeleteConfirmOpen(true)}>
+                <DockButton type="button" intent="danger" onClick={() => setDeleteConfirmOpen(true)}>
                   Delete Exercise
                 </DockButton>
               )}
@@ -503,12 +503,12 @@ export function EditableRoutineDayExerciseList({
         {ctaDockState.variant === "edit_exercise" && activeExercise ? (
           <BottomActionDock
             left={(
-              <DockButton type="button" variant="secondary" onClick={() => setSelectedExerciseId(activeExercise.exerciseId)}>
+              <DockButton type="button" intent="info" onClick={() => setSelectedExerciseId(activeExercise.exerciseId)}>
                 View Exercise
               </DockButton>
             )}
             right={(
-              <DockButton type="button" variant="destructive" onClick={() => setDeleteConfirmOpen(true)}>
+              <DockButton type="button" intent="danger" onClick={() => setDeleteConfirmOpen(true)}>
                 Delete Exercise
               </DockButton>
               )}
