@@ -1,3 +1,9 @@
+import {
+  SEMANTIC_BUTTON_INTENT_CLASS_NAMES,
+  SEMANTIC_BUTTON_INTENT_FOCUS_RING_CLASS_NAMES,
+  type SemanticButtonIntent,
+} from "@/components/ui/buttonSemanticIntents";
+
 export type AppButtonVariant = "primary" | "secondary" | "destructive" | "ghost";
 export type AppButtonSize = "md" | "sm";
 export type AppButtonState = "default" | "active";
@@ -7,12 +13,14 @@ export function getAppButtonClassName({
   size = "md",
   state = "default",
   fullWidth = false,
+  intent,
   className,
 }: {
   variant: AppButtonVariant;
   size?: AppButtonSize;
   state?: AppButtonState;
   fullWidth?: boolean;
+  intent?: SemanticButtonIntent;
   className?: string;
 }) {
   const resolvedVariant = state === "active" && variant !== "destructive" ? "primary" : variant;
@@ -27,8 +35,9 @@ export function getAppButtonClassName({
           : "border-[rgb(var(--button-secondary-border))] bg-[rgb(var(--button-secondary-bg))] text-[rgb(var(--button-secondary-text))] hover:bg-[rgb(var(--button-secondary-bg-hover))] active:bg-[rgb(var(--button-secondary-bg-active))]";
 
   const sizeClassName = size === "sm" ? "app-button-sm" : "app-button-md";
-  const focusRingClassName =
-    resolvedVariant === "destructive"
+  const focusRingClassName = intent
+    ? SEMANTIC_BUTTON_INTENT_FOCUS_RING_CLASS_NAMES[intent]
+    : resolvedVariant === "destructive"
       ? "focus-visible:ring-red-500/35"
       : "focus-visible:ring-emerald-300/30";
 
@@ -38,6 +47,7 @@ export function getAppButtonClassName({
     focusRingClassName,
     fullWidth ? "w-full" : "",
     variantClassName,
+    intent ? SEMANTIC_BUTTON_INTENT_CLASS_NAMES[intent] : "",
     className ?? "",
   ]
     .filter(Boolean)

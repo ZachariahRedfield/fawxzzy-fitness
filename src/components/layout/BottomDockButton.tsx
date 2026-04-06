@@ -3,7 +3,6 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { AppButton } from "@/components/ui/AppButton";
 import { getAppButtonClassName } from "@/components/ui/appButtonClasses";
 import {
-  BOTTOM_ACTION_INTENT_CLASS_NAMES,
   getBottomActionAppButtonVariant,
   resolveBottomActionIntent,
   type BottomActionIntent,
@@ -31,9 +30,10 @@ export function BottomDockButton({ children, intent, variant, className, ...prop
     <AppButton
       {...props}
       variant={resolvedVariant}
+      intent={resolvedIntent}
       data-bottom-action-intent={resolvedIntent}
       fullWidth
-      className={cn(bottomDockBaseClassName, BOTTOM_ACTION_INTENT_CLASS_NAMES[resolvedIntent], className)}
+      className={cn(bottomDockBaseClassName, className)}
     >
       {children}
     </AppButton>
@@ -62,9 +62,10 @@ export function BottomDockLink({
       data-bottom-action-intent={resolvedIntent}
       className={getAppButtonClassName({
         variant: resolvedVariant,
+        intent: resolvedIntent,
         size: "md",
         fullWidth: true,
-        className: cn(bottomDockBaseClassName, BOTTOM_ACTION_INTENT_CLASS_NAMES[resolvedIntent], className),
+        className: cn(bottomDockBaseClassName, className),
       })}
     >
       <span>{children}</span>

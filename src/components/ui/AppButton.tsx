@@ -5,6 +5,7 @@ import {
   type AppButtonState,
   type AppButtonVariant,
 } from "@/components/ui/appButtonClasses";
+import type { SemanticButtonIntent } from "@/components/ui/buttonSemanticIntents";
 
 type AppButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: AppButtonVariant;
@@ -13,6 +14,7 @@ type AppButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   fullWidth?: boolean;
   loading?: boolean;
   icon?: ReactNode;
+  intent?: SemanticButtonIntent;
 };
 
 export function AppButton({
@@ -22,6 +24,7 @@ export function AppButton({
   state = "default",
   fullWidth = false,
   loading = false,
+  intent,
   className,
   icon,
   disabled,
@@ -32,7 +35,7 @@ export function AppButton({
       {...props}
       disabled={disabled || loading}
       aria-busy={loading}
-      className={getAppButtonClassName({ variant, size, state, fullWidth, className })}
+      className={getAppButtonClassName({ variant, size, state, fullWidth, intent, className })}
     >
       {icon ? <span aria-hidden="true">{icon}</span> : null}
       <span>{children}</span>
