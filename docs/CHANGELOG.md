@@ -5295,6 +5295,9 @@ WHY:
 - Formalized shared destructive-confirmation copy semantics around `title` + `consequenceText` in the reusable confirmation modal and wired the Today discard-workout flow onto that contract via `ConfirmedServerFormButton`.
 - Adopted the same low-risk destructive confirmation prop contract across existing delete/remove confirmations (routine delete, day exercise delete, history log delete, and history exercise delete) without changing behavior or modal layout.
 - Added a destructive-dialog pattern note to `docs/UI_NORMALIZATION_AUDIT.md` to document hierarchy, spacing, and safe-area ownership for this modal family.
+- Added a shared semantic button-intent source (`positive`, `info`, `toggleInactive`, `toggleActive`, `danger`) for dock/app button styling so bottom-action primitives pull color/focus treatment from one API.
+- Threaded semantic intent through `BottomDockButton`, `DockButton`, canonical bottom action helpers, and shared app-button class helpers while preserving disabled/pressed/focus behavior.
+- Documented the semantic intent usage rule in the mobile shell contract: color follows intent, label follows surface.
 
 ### Why
 - Routine details save behavior had drifted between create (explicit submit) and edit (autosave), making save expectations ambiguous and weakening unsaved-change UX.
@@ -5314,3 +5317,5 @@ WHY:
 - Explicitly separating the read-only base from editable operations keeps the contract clear while preserving existing shell and bottom dock behavior.
 - Destructive confirmation wording had started to drift between screens (`description` copy variants), which weakened consistency for high-risk actions like discarding an in-progress workout.
 - Codifying one destructive-dialog contract keeps visual rhythm and safe-area behavior stable while reducing route-local confirmation drift.
+- Dock/action styling had started to split between intent-local overrides and shared button-class helpers, increasing the risk of per-screen color drift on glass surfaces.
+- Centralizing semantic intent treatment keeps action colors deterministic while leaving screen labels free to express workflow-specific copy.

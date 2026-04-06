@@ -15,7 +15,6 @@ import {
 import { ConfirmedServerFormButton } from "@/components/destructive/ConfirmedServerFormButton";
 import { BottomDockButton } from "@/components/layout/BottomDockButton";
 import { usePublishBottomActions } from "@/components/layout/bottom-actions";
-import { BOTTOM_ACTION_INTENT_CLASS_NAMES } from "@/components/layout/bottomActionIntents";
 import { BottomActionSplit } from "@/components/layout/CanonicalBottomActions";
 import { DestructiveButton, SecondaryButton } from "@/components/ui/AppButton";
 import { ModifyMeasurements, type MeasurementMetrics, type MeasurementValues } from "@/components/ui/measurements/ModifyMeasurements";
@@ -285,8 +284,9 @@ export function LogAuditClient({
             triggerAriaLabel="Delete log"
             triggerClassName={getAppButtonClassName({
               variant: "destructive",
+              intent: "danger",
               size: "md",
-              className: `min-h-[3.1rem] w-full justify-center rounded-[1.08rem] px-4 text-center text-sm font-semibold tracking-[0.01em] ${BOTTOM_ACTION_INTENT_CLASS_NAMES.danger}`,
+              className: "min-h-[3.1rem] w-full justify-center rounded-[1.08rem] px-4 text-center text-sm font-semibold tracking-[0.01em]",
             })}
             modalTitle="Delete log?"
             modalConsequenceText="This will permanently delete this workout session and all logged sets."
